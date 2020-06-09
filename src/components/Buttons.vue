@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name :"buttonLogin",
+    name :"buttons",
     props :{
         NameBT : String,
     },
