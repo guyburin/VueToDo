@@ -9,15 +9,10 @@
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
         v-model="Textvalue"
-        @keyup.enter="showtext"
+        @keyup.enter="onTextChange"
       />
-       <div class="input-group-prepend">
-        <button
-          class="btn btn-outline-info"
-          type="button"
-          id="button-addon1"
-          @click="showtext"
-        >{{boxname}}</button>
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-info" type="button" id="button-addon1" disabled>{{boxname}}</button>
       </div>
     </div>
   </div>
@@ -27,22 +22,18 @@
 export default {
   name: "inputbox",
   props: {
-    boxname : String,
+    boxname: String
   },
   data() {
     return {
       Textvalue: ""
-    }
+    };
   },
-  methods :{
-    onTextChange () {
-      this.$emit("textChange", this.Textvalue)
-
+  methods: {
+    onTextChange() {
+      this.$emit("addArray", this.Textvalue);
+      // alert(this.Textvalue);
     },
-    showtext (){
-      alert(this.Textvalue)
-    }
-  },
-
+  }
 };
 </script>

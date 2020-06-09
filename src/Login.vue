@@ -41,7 +41,7 @@ export default {
   methods: {
     handleUserChange(Username) {
       this.Username = Username;
-      // alert(payload)
+      alert(Username)
     },
     handlePasswordChange(password) {
       this.password = password;
