@@ -2,14 +2,22 @@
   <div class="hello">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+        <button
+          class="btn btn-outline-info"
+          type="button"
+          id="button-addon1"
+          disabled
+        >{{texts}}</button>
       </div>
       <input
+        id="inbox1"
         type="text"
         class="form-control"
         placeholder
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
+        v-model="Textvalue"
+        @change="onTextChange"
       />
     </div>
   </div>
@@ -17,9 +25,21 @@
 
 <script>
 export default {
-  name: 'inputbox',
+  name: "inputbox",
   props: {
-    msg: String
-  }
-}
+    texts : String,
+  },
+  data() {
+    return {
+      Textvalue: ""
+    }
+  },
+  methods :{
+    onTextChange () {
+      this.$emit("textChange", this.Textvalue)
+
+    }
+  },
+
+};
 </script>
