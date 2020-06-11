@@ -12,7 +12,7 @@
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
         v-model="Textvalue"
-        @blur="onTextChange"
+        @change="onTextChange"
       />
     </div>
   </div>

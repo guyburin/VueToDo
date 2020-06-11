@@ -1,31 +1,36 @@
 <template>
   <div id="todo">
-    <div class="row head">
-      <div class="col-md-5"></div>
-      <div class="col-md-2">
-        <h1>To do page</h1>
+    <div class="col align-self-center">
+      <div class="row head">
+        <div class="col"></div>
+        <div class="col-md-2">
+          <h1>To do page</h1>
+        </div>
+        <div class="col"></div>
       </div>
-      <div class="col-md-5"></div>
-    </div>
-    <div class="row head">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <inputsubmit boxname="ToDo" @addArray="handleTodaChange"></inputsubmit>
+      <div class="row head">
+        <div class="col"></div>
+        <div class="col-md-4">
+          <inputsubmit boxname="ToDo" @addArray="handleTodaChange"></inputsubmit>
+        </div>
+        <div class="col"></div>
       </div>
-      <div class="col-md-4"></div>
-    </div>
-    <div class="row head">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <ul id="example-2">
-          <li v-for="item in items" :key="item">
-            {{ item }}
-            <button class="buttondel btn btn-outline-info" @click="DeleteTodo">del</button>
-          </li>
-        </ul>
+      <div class="row head">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <ul id="example-2">
+            <li v-for="item in items" :key="item">
+              {{ item }}
+              <button class="buttondel btn btn-outline-info" @click="DeleteTodo">del</button>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4"></div>
       </div>
-      <div class="col-md-4"></div>
     </div>
+
+    {{this.$route.query}}
+
   </div>
 </template>
 
@@ -52,8 +57,8 @@ export default {
       this.items.push(Todoactivity);
       // alert(Todoactivity);
     },
-    DeleteTodo(){
-      alert("delete")
+    DeleteTodo() {
+      alert("delete");
     }
   }
 };

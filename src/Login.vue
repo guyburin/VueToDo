@@ -1,27 +1,31 @@
 <template>
   <div id="login">
-    <div class="row">
-      <div class="col-md-5"></div>
-      <div class="col-md-3 center">
-        <h1>To Do List : Login</h1>
-      </div>
-      <div class="col-md-5"></div>
-    </div>
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <inputbox inputbox boxname="Username" @textChange="handleUserChange" />
-        <inputbox inputbox boxname="Password" @textChange="handlePasswordChange" />
-        <buttonLogin class="buttonLogin" NameBT="Login"></buttonLogin>
-        <router-link to="/Todo">
-          <buttons class="buttonLogin" NameBT="Login"></buttons>
-        </router-link>
-        <router-link to="/Register">
-          <buttons class="buttonLogin" NameBT="Register"></buttons>
-        </router-link>
-      </div>
-      <div class="col-md-4"></div>
-    </div>
+    <b-container class="bv-example-row headmargin">
+      <b-row align-h="center">
+        <b-col cols="4">
+          <h1>To Do List : Login</h1>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="8">
+          <inputbox inputbox boxname="Username" @textChange="handleUserChange" />
+          <inputbox inputbox boxname="Password" @textChange="handlePasswordChange" />
+          <buttonLogin class="buttonLogin" NameBT="Login"></buttonLogin>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="4">
+          <!-- <router-link to="/Todo"> -->
+          <div v-on:click="getdata">
+            <buttons class="buttonLogin" NameBT="Login"></buttons>
+          </div>
+          <!-- </router-link> -->
+          <router-link to="/Register">
+            <buttons class="buttonLogin" NameBT="Register"></buttons>
+          </router-link>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -29,11 +33,17 @@
 <script>
 import inputbox from "./components/InputBox.vue";
 import buttons from "./components/Buttons.vue";
+import axios from "axios";
 
 export default {
   name: "App",
-  props: ["Username", "password"],
-
+  props: ["Username", "Password"],
+  data() {
+    return {
+      userdata: [],
+      errors: []
+    };
+  },
   components: {
     inputbox,
     buttons
@@ -41,34 +51,55 @@ export default {
   methods: {
     handleUserChange(Username) {
       this.Username = Username;
-      alert(Username)
     },
     handlePasswordChange(password) {
-      this.password = password;
+      this.Password = password;
+    },
+    getdata() {
+      var User = this.Username;
+      var Pass = this.Password;
+      axios
+        .get("http://localhost:3000/member/" + User)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.userdata = response.data;
+
+          this.userdata.forEach(item => {
+            if (User == item.username && Pass == item.password) {
+              this.$router.push({
+                path: "/Todo",
+                query: { User, id: item.member_id }
+              });
+            } else {
+              alert("Username or Password incorrect!!");
+            }
+          });
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
     }
-    // goBack() {
-    //   window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
-    // }
   }
-  // computed: {
-  //   username() {
-  //     // We will see what `params` is shortly
-  //     return this.$route.params.username;
-  //   }
-  // }
 };
 </script>
 
+
+
 <style>
-#app {
+#login {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  /* background-image: url("/assets/wp.jpg"); */
+  /* background-color: aqua; */
 }
 .buttonLogin {
   margin-bottom: 10px;
+}
+.headmargin {
+  margin-top: 250px;
 }
 </style>
