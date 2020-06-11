@@ -63,12 +63,11 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           this.userdata = response.data;
-
           this.userdata.forEach(item => {
             if (User == item.username && Pass == item.password) {
               this.$router.push({
                 path: "/Todo",
-                query: { User, id: item.member_id }
+                query: {  id: item.member_id }
               });
             } else {
               alert("Username or Password incorrect!!");

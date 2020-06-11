@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="input-group mb-3">
       <input
-        id="inbox1"
+        id="IdMember"
         type="text"
         class="form-control"
         placeholder
@@ -19,20 +19,22 @@
 </template>
 
 <script>
+
+
 export default {
   name: "inputbox",
   props: {
-    boxname: String
+    boxname: String,
+    IdMember: String
   },
   data() {
     return {
-      Textvalue: ""
+      Textvalue: "",
     };
   },
   methods: {
     onTextChange() {
-      this.$emit("addArray", this.Textvalue);
-      // alert(this.Textvalue);
+      this.$emit("addArray", this.Textvalue,this.IdMember);
     },
   }
 };
