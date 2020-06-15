@@ -9,10 +9,10 @@
             <inputbox boxname="Username" @textChange="handleUserChange"></inputbox>
           </div>
           <div class="form-group">
-            <inputbox boxname="Password" @textChange="handlePassChange"></inputbox>
+            <InputBoxPassword boxname="Password" @textChange="handlePassChange"></InputBoxPassword>
           </div>
           <div class="form-group">
-            <inputbox boxname="CF_Password" @textChange="handleCfPassChange"></inputbox>
+            <InputBoxPassword boxname="CF_Password" @textChange="handleCfPassChange"></InputBoxPassword>
           </div>
           <div v-on:click="registerMember">
             <buttons NameBT="Register" click="registerMember"></buttons>
@@ -26,6 +26,7 @@
 
 <script>
 import inputbox from "./components/InputBox.vue";
+import InputBoxPassword from "./components/InputBox_Password.vue";
 import buttons from "./components/Buttons.vue";
 import axios from "axios";
 
@@ -34,7 +35,7 @@ export default {
   props: ["Username", "Password", "CF_Password"],
   components: {
     inputbox,
-    buttons
+    buttons,InputBoxPassword
   },
   data() {
     return {
@@ -56,34 +57,23 @@ export default {
       // alert(Username);
     },
     registerMember() {
-      if (this.Password == this.CF_Password) {
-        var Username = this.Username;
-        var Password = this.Password;
-        axios.get("http://localhost:3000/member/" + Username).then(response => {
-          // JSON responses are automatically parsed.
-          this.count = response.data.length;
-          if (this.count == 0) {
-            axios
-              .post(
-                "http://localhost:3000/addMember/" +
-                  Username +
-                  "/" +
-                  Password +
-                  ""
-              )
-              .then(response => {
-                if (response.data.affectedRows > 0) {
-                  alert("Register Success!!");
-                  this.$router.push({ path: "/Login" });
-                }
-              });
-          } else {
-            alert("Have this username please change!!");
+      axios
+        .post("http://localhost:3000/addMember", {
+          Username: this.Username,
+          Password: this.Password,
+          CF_Password: this.CF_Password
+        })
+        .then(response => {
+          switch (response.data.register) {
+            case 1:alert("Register Success!!");
+            this.$router.push({ path: "/Login" });
+              break;
+            case 2:alert("Have this username please change!!");
+              break;
+            default :alert("password not match!!");
+              break;
           }
         });
-      } else {
-        alert("password not match!!");
-      }
     }
   }
 };

@@ -9,7 +9,12 @@
       <b-row align-h="center">
         <b-col cols="8">
           <inputbox inputbox boxname="Username" @textChange="handleUserChange" />
-          <inputbox inputbox boxname="Password" @textChange="handlePasswordChange" />
+          <InputBoxPassword
+            inputbox
+            types="password"
+            boxname="Password"
+            @textChange="handlePasswordChange"
+          />
           <buttonLogin class="buttonLogin" NameBT="Login"></buttonLogin>
         </b-col>
       </b-row>
@@ -32,8 +37,11 @@
 
 <script>
 import inputbox from "./components/InputBox.vue";
+import InputBoxPassword from "./components/InputBox_Password.vue";
 import buttons from "./components/Buttons.vue";
 import axios from "axios";
+const secretKey ="GBP";
+
 
 export default {
   name: "App",
@@ -41,13 +49,18 @@ export default {
   data() {
     return {
       userdata: [],
-      errors: []
+      errors: [],
     };
   },
   components: {
     inputbox,
-    buttons
+    buttons,
+    InputBoxPassword
   },
+  // localStorage: {
+  //   token : String
+  // },
+
   methods: {
     handleUserChange(Username) {
       this.Username = Username;
@@ -58,21 +71,29 @@ export default {
     getdata() {
       var User = this.Username;
       var Pass = this.Password;
+      // alert(User+" "+Pass)
       axios
-        .get("http://localhost:3000/member/" + User)
+        .post("http://localhost:3000/Login", {
+          Username: User,
+          Password: Pass
+        })
         .then(response => {
-          // JSON responses are automatically parsed.
           this.userdata = response.data;
-          this.userdata.forEach(item => {
-            if (User == item.username && Pass == item.password) {
-              this.$router.push({
+          // alert(this.userdata.accessToken)
+          localStorage.setItem("token", this.userdata.accessToken);
+          let token =localStorage.getItem("token")
+          // let payload = token.split(".")[1]
+          const payload_data = this.$jwt.decode(token, secretKey)
+          // alert(payload_data.login)
+          if(payload_data.login){
+             this.$router.push({
                 path: "/Todo",
-                query: {  id: item.member_id }
               });
-            } else {
-              alert("Username or Password incorrect!!");
-            }
-          });
+          }else{
+            alert("Username or password incorrect")
+          }
+          
+          //---------------
         })
         .catch(e => {
           this.errors.push(e);

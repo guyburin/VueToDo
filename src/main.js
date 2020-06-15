@@ -1,8 +1,8 @@
 import Vue from 'vue'
-// import VueAxios from "vue-axios";
-// import axios from "axios";
+import VueLocalStorage from 'vue-localstorage'
 import VueRouter from 'vue-router';
 import RouterView from './RouterView';
+import VueJWT from 'vuejs-jwt'
 import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -13,11 +13,16 @@ import Todo from './Todo.vue';
 import see from './see.vue';
 
 
+ 
+
+
 
 //----------------------
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
+Vue.use(VueLocalStorage);
+Vue.use(VueJWT)
 // Vue.use(VueAxios, axios);
 
 
@@ -38,5 +43,3 @@ new Vue({
   render: h => h(RouterView),
   router,
 }).$mount('#app')
-
-

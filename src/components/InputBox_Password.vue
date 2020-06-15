@@ -6,7 +6,7 @@
       </div>
       <input
         id="inbox1"
-        type="text"
+        type="password"
         class="form-control"
         placeholder
         aria-label="Example text with button addon"
@@ -22,8 +22,7 @@
 export default {
   name: "inputbox",
   props: {
-    boxname: String,
-    types: String
+    boxname: String
   },
   data() {
     return {
